@@ -72,14 +72,14 @@ def getSentiment(text, index):
     return text[index][len(text[index])-3]
 
 
-def createFile(fileName, vectorized, vocab):
-    with open(fileName) as f:
+def createFile(inputFile, outputFile):
+    with open(inputFile) as f:
         text = f.readlines()
     processed = process_text(text) # remove everything but letters from file
     vocab = build_vocab(processed) # get all words in alphabetical order
     vectored = vectorize_text(processed, vocab, text)
 
-    file = open(trainingFile, 'w')
+    file = open(outputFile, 'w')
     for i in vocab:
         file.write(i)
         file.write(", ")
@@ -92,60 +92,23 @@ def createFile(fileName, vectorized, vocab):
                 file.write(",")
             else:
                 file.write("\n")
-        file.write("classlabel\n")
     file.close()
+    return vectored, vocab
 
 def main():
     # Take in text files and outputs sentiment scores
     # -------------Training Set-----------------
-    trainingFile = "preprocessed_train.txt"
-    with open('trainingSet.txt') as f:
-        text = f.readlines()
-    processed = process_text(text) # remove everything but letters from file
-    vocab = build_vocab(processed) # get all words in alphabetical order
-    vectored = vectorize_text(processed, vocab, text)
+    outputFile = "preprocessed_train.txt"
+    inputFile = "trainingSet.txt"
+    vectorized, vocab = createFile(inputFile, outputFile)
 
-    file = open(trainingFile, 'w')
-    for i in vocab:
-        file.write(i)
-        file.write(", ")
-    file.write("classlabel\n")
-
-    for i in range(len(vectored)):
-        for x in range(len(vectored[i])):
-            file.write(str(vectored[i][x]))
-            if(x < len(vectored[i])-1):
-                file.write(",")
-            else:
-                file.write("\n")
-        file.write("classlabel\n")
-    file.close()
-# ---------------Test Set--------------------
-    testFile = "preprocessed_test.txt"
-    with open('testSet.txt') as f:
-        text = f.readlines()
-    processed = process_text(text) # remove everything but letters from file
-    vocab = build_vocab(processed) # get all words in alphabetical order
-    vectored = vectorize_text(processed, vocab, text)
-
-    file = open(testFile, 'w')
-    for i in vocab:
-        file.write(i)
-        file.write(", ")
-    file.write("classlabel\n")
-
-    for i in range(len(vectored)):
-        for x in range(len(vectored[i])):
-            file.write(str(vectored[i][x]))
-            if(x < len(vectored[i])-1):
-                file.write(",")
-            else:
-                file.write("\n")
-    file.close()
-
-
+    #---------------Test Set--------------------
+    outputFile = "preprocessed_test.txt"
+    inputFile = "testSet.txt"
+    vectorized2, vocab2 = createFile(inputFile, outputFile)
+    
     bayes = BayesClassifier
-
+    bayes.train(bayes, vectorized, vocab)
     
     return 1
 

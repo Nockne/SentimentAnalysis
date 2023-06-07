@@ -8,7 +8,7 @@ class BayesClassifier():
     sections: sections for incremental training
     """
     def __init__(self):
-        self.postive_word_counts = {}
+        self.positive_word_counts = {}
         self.negative_word_counts = {}
         self.percent_positive_scentences = 0
         self.percent_negative_scentences = 0
@@ -16,7 +16,7 @@ class BayesClassifier():
         self.file_sections = [self.file_length // 4, self.file_length // 3, self.file_length // 2]
 
 
-    def train(self, train_data, train_labels, vocab):
+    def train(self, train_data, vocab):
         """
         This function builds the word counts and sentence percentages used for classify_text
         train_data: vectorized text
@@ -27,13 +27,14 @@ class BayesClassifier():
             good = 0 # reset the count for each word
             bad = 0
             for x in range(len(train_data)):
-                if(train_data[i] == 1):
-                    if(train_data[i][len(train_data[i])-1] == 1): # good 
+                if(train_data[x][i] == 1):
+                    if(train_data[x][len(train_data[x])-1] == "1"): # good 
                         good += 1
-                    if(train_data[i][len(train_data[i])-1] == 0): # bad
+                    if(train_data[x][len(train_data[x])-1] == "0"): # bad
                         bad += 1
-            self.positive_word_counts.append(good)
-            self.positive_word_counts.append(bad)
+                print("Good: ", good)
+                print("Bad: ", bad)
+                break
         return 1
 
 
