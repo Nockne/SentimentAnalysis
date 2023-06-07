@@ -23,6 +23,17 @@ class BayesClassifier():
         train_labels: vectorized labels
         vocab: vocab from build_vocab
         """
+        for i in range(len(vocab)):
+            good = 0 # reset the count for each word
+            bad = 0
+            for x in range(len(train_data)):
+                if(train_data[i] == 1):
+                    if(train_data[i][len(train_data[i])-1] == 1): # good 
+                        good += 1
+                    if(train_data[i][len(train_data[i])-1] == 0): # bad
+                        bad += 1
+            self.positive_word_counts.append(good)
+            self.positive_word_counts.append(bad)
         return 1
 
 

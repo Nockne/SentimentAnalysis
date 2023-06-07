@@ -1,6 +1,7 @@
 # CS331 Sentiment Analysis Assignment 3
 # This file contains the processing functions
 import re
+from classifier import BayesClassifier
 
 def process_text(text):
     """
@@ -71,6 +72,29 @@ def getSentiment(text, index):
     return text[index][len(text[index])-3]
 
 
+def createFile(fileName, vectorized, vocab):
+    with open(fileName) as f:
+        text = f.readlines()
+    processed = process_text(text) # remove everything but letters from file
+    vocab = build_vocab(processed) # get all words in alphabetical order
+    vectored = vectorize_text(processed, vocab, text)
+
+    file = open(trainingFile, 'w')
+    for i in vocab:
+        file.write(i)
+        file.write(", ")
+    file.write("classlabel\n")
+
+    for i in range(len(vectored)):
+        for x in range(len(vectored[i])):
+            file.write(str(vectored[i][x]))
+            if(x < len(vectored[i])-1):
+                file.write(",")
+            else:
+                file.write("\n")
+        file.write("classlabel\n")
+    file.close()
+
 def main():
     # Take in text files and outputs sentiment scores
     # -------------Training Set-----------------
@@ -118,6 +142,9 @@ def main():
             else:
                 file.write("\n")
     file.close()
+
+
+    bayes = BayesClassifier
 
     
     return 1
