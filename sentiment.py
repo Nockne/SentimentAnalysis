@@ -97,12 +97,26 @@ def createFile(inputFile, outputFile):
     file.close()
     return vectored, vocab
 
-
-def increment(vectorized, increment):
-
-    
+def incrementor(vectorized, x):
+    vector = []
+    for i in range(0, x):
+        vector.append(vectorized[i])
     return vector
 
+
+def run(vectorTrain, vectorTest, vocab):
+    size = len(vectorTrain)
+    for i in range (1, 5):
+        portion = i / 4
+        wedge = int(portion * size)
+        vectorized = incrementor(vectorTrain, wedge) # get 1/4 to 4/4 of set
+        bayes = BayesClassifier
+        bayes.train(bayes, vectorized, vocab) # train with sections of set
+        trainP = bayes.classify_text(bayes, vectorTrain, vocab)
+        print(i, "quarters:")
+        print("Train: ", accuracy(trainP, vectorTrain) * 100)
+        testP = bayes.classify_text(bayes, vectorTest, vocab)
+        print("Test: ", accuracy(testP, vectorTest) * 100)
 
 def main():
     # Take in text files and outputs sentiment scores
@@ -116,11 +130,8 @@ def main():
     inputFile = "testSet.txt"
     vectorized2, vocab2 = createFile(inputFile, outputFile)
     
-    bayes = BayesClassifier
-    bayes.train(bayes, vectorized, vocab)
-    predictions = bayes.classify_text(bayes, vectorized, vocab)
-    print(accuracy(predictions, vectorized) * 100)
-
+    run(vectorized, vectorized2, vocab)
+    
     return 1
 
     
