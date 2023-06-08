@@ -97,6 +97,13 @@ def createFile(inputFile, outputFile):
     file.close()
     return vectored, vocab
 
+
+def increment(vectorized, increment):
+
+    
+    return vector
+
+
 def main():
     # Take in text files and outputs sentiment scores
     # -------------Training Set-----------------
@@ -113,7 +120,7 @@ def main():
     bayes.train(bayes, vectorized, vocab)
     predictions = bayes.classify_text(bayes, vectorized, vocab)
     print(accuracy(predictions, vectorized) * 100)
-    
+
     return 1
 
     
