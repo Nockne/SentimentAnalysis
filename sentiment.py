@@ -62,9 +62,11 @@ def accuracy(predicted_labels, true_labels):
     true_labels: list of 0/1s from text file
     return the accuracy of the predictions
     """
-
-
-
+    count = 0
+    for i in range(len(true_labels)-1):
+        if(true_labels[i][len(true_labels[i])-1] == predicted_labels[i]):
+            count += 1
+    accuracy_score = count / len(predicted_labels)
     return accuracy_score
 
 
@@ -109,6 +111,8 @@ def main():
     
     bayes = BayesClassifier
     bayes.train(bayes, vectorized, vocab)
+    predictions = bayes.classify_text(bayes, vectorized, vocab)
+    print(accuracy(predictions, vectorized) * 100)
     
     return 1
 
